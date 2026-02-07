@@ -95,13 +95,21 @@ public class MemberService : IMemberService
             var email = await _repo.IsEmail(req.Email);
             if (email) return ApiResponse<string>.Error(404, "Email is Duplicated!");
 
+            var date = DateTime.ParseExact(
+                req.BirthdayStr,
+                "dd/MM/yyyy",
+                CultureInfo.InvariantCulture
+            );
+
+            var birthday = int.Parse(date.ToString("yyyyMMdd"));
+
             var item = new Member()
             {
                 FullName = req.FullName,
                 Email = req.Email,
                 Phone = req.Phone,
                 Position = req.Position,
-                Birthday = 19990510,
+                Birthday = birthday,
                 Status = req.Status
             };
 
@@ -130,7 +138,7 @@ public class MemberService : IMemberService
                 "dd/MM/yyyy",
                 CultureInfo.InvariantCulture
             );
-            
+
             var birthday = int.Parse(date.ToString("yyyyMMdd"));
 
             var item = new Member()
