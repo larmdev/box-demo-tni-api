@@ -41,6 +41,9 @@ builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IRankService, RankService>();
 builder.Services.AddScoped<ITodoService, TodoService>();
 
+builder.Services.AddScoped<IMemberService, MemberService>();
+builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+
 builder.Services.AddScoped<IEmailJobService, EmailJobService>();
 
 builder.Services.AddHttpClient<ITodoApiClient, TodoApiClient>((sp, client) =>

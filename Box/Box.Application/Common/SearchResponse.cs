@@ -21,11 +21,24 @@ public class SearchResponse<T>
         };
     }
 
-    public static SearchResponse<T> Error(string message, int status = 500)
+    public static SearchResponse<T> Error(int status = 500, string message = "")
     {
         return new SearchResponse<T>
         {
             Status = status,
+            Message = message,
+            Errors =
+            {
+                new ResponseError { ErrorMessage = message }
+            }
+        };
+    }
+
+    public static SearchResponse<T> Error(string message = "")
+    {
+        return new SearchResponse<T>
+        {
+            Status = 500,
             Message = message,
             Errors =
             {
