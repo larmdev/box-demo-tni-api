@@ -39,7 +39,8 @@ public class MemberService : IMemberService
                 Email = s.Email,
                 Phone = s.Phone,
                 Position = s.Position,
-                Birthday = s.Birthday
+                Birthday = s.Birthday,
+                Status = s.Status
             }).ToList();
 
             return SearchResponse<MemberResponseDto>.Success(
