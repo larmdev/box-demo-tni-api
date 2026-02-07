@@ -1,3 +1,4 @@
+using System.Globalization;
 using Box.Application.Interfaces;
 using Box.Domain.Entities;
 using Box.Application.Dtos;
@@ -90,9 +91,9 @@ public class MemberService : IMemberService
     public async Task<ApiResponse<string>> Create(MemberRequestDto req)
     {
         try
-        {  
+        {
             var email = await _repo.IsEmail(req.Email);
-            if (email)  return ApiResponse<string>.Error(404, "Email is Duplicated!");
+            if (email) return ApiResponse<string>.Error(404, "Email is Duplicated!");
 
             var item = new Member()
             {
@@ -117,12 +118,20 @@ public class MemberService : IMemberService
     public async Task<ApiResponse<string>> Update(MemberRequestDto req)
     {
         try
-        {  
+        {
             if (req.MemberId == null || req.MemberId == Guid.Empty) return ApiResponse<string>.Error(500, "MemberId is not found!");
             Guid memberId = req.MemberId ?? Guid.NewGuid();
 
             var member = await _repo.Get(memberId);
-            if (member == null)  return ApiResponse<string>.Error(404, "User is not found!");
+            if (member == null) return ApiResponse<string>.Error(404, "User is not found!");
+
+            var date = DateTime.ParseExact(
+                req.BirthdayStr,
+                "dd/MM/yyyy",
+                CultureInfo.InvariantCulture
+            );
+            
+            var birthday = int.Parse(date.ToString("yyyyMMdd"));
 
             var item = new Member()
             {
@@ -131,8 +140,9 @@ public class MemberService : IMemberService
                 Email = req.Email,
                 Phone = req.Phone,
                 Position = req.Position,
-                Birthday = 19990510,
-                Status = req.Status
+                Birthday = birthday,
+                Status = req.Status,
+                CreatedAt = member.CreatedAt
             };
 
             await _repo.Update(item);
@@ -148,9 +158,9 @@ public class MemberService : IMemberService
     public async Task<ApiResponse<string>> Delete(string id)
     {
         try
-        {  
+        {
             if (id == null || id == "") return ApiResponse<string>.Error(404, "MemberId is not found!");
-            
+
             Guid memberId = Guid.Parse(id);
 
             await _repo.Delete(memberId);
