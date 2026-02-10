@@ -13,6 +13,8 @@ public class AppDbContext : DbContext
     public DbSet<Enrollment> Enrollments { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<Member> Members { get; set; }
+    public DbSet<Stock> Stocks { get; set; }
+    public DbSet<Product> Products { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

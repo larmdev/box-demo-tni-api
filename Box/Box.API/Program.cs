@@ -44,6 +44,9 @@ builder.Services.AddScoped<ITodoService, TodoService>();
 builder.Services.AddScoped<IMemberService, MemberService>();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
 builder.Services.AddScoped<IEmailJobService, EmailJobService>();
 
 builder.Services.AddHttpClient<ITodoApiClient, TodoApiClient>((sp, client) =>
